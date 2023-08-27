@@ -2,6 +2,7 @@ import tkinter as tk
 from tkinter import filedialog
 from procesar_xml import ProcesarXML
 from lista_simple import ListaSimple
+from grafica import Grafica
 
 class metodos:
 
@@ -47,8 +48,8 @@ class metodos:
                 
                 else:
                     self.ruta_archivo = direccion_archivo
-                    print("\nArchivo cargado con éxito...")
-                    print("Volviendo al menú inicial...\n")
+                    print("\n> Archivo cargado con éxito...")
+                    print("> Volviendo al menú inicial...\n")
                 self.menu()
                 return
 
@@ -64,6 +65,7 @@ class metodos:
                 procesar = ProcesarXML(self.ruta_archivo, self.lista_senales_general)
                 print("\n> El archivo se está procesando, por favor espere...")
                 procesar.procesar_archivo()
+                procesar.crear_matriz_reducida()
                 print("> El archivo se ha procesado con éxito...\n")
                 self.menu()
                 return  
@@ -87,7 +89,31 @@ class metodos:
                     tiempo_actual = senal_actual.getDato().lista_tiempos.getInicio()
 
                     while tiempo_actual != None:
-                        print("Tiempo:", tiempo_actual.getDato().tiempo)
+                        print("Tiempo:", tiempo_actual.getDato().tiempo, "Grupo:", tiempo_actual.getDato().grupo_asociado)
+                        amplitud_actual = tiempo_actual.getDato().lista_amplitudes.getInicio()
+
+                        while amplitud_actual != None:
+                            print(f"   Amplitud {amplitud_actual.getDato().amplitud} - Dato: {amplitud_actual.getDato().dato}")
+                            amplitud_actual = amplitud_actual.getSiguiente()
+                        
+                        tiempo_actual = tiempo_actual.getSiguiente()
+                    
+                    senal_actual = senal_actual.getSiguiente()
+                    print("\n")
+
+
+                print("MATRIZ DE PATRONES")
+
+                senal_actual = self.lista_senales_general.getInicio()
+                while senal_actual != None:
+                    print("\nNombre senal actual:", senal_actual.getDato().nombre)
+                    print("Tiempo maximo senal actual:", senal_actual.getDato().tiempo_maximo)
+                    print("Amplitud maxima senal actual:", senal_actual.getDato().amplitud_maxima,"\n")
+                    
+                    tiempo_actual = senal_actual.getDato().matriz_patrones_tiempos.getInicio()
+
+                    while tiempo_actual != None:
+                        print("Tiempo:", tiempo_actual.getDato().tiempo, "Grupo:", tiempo_actual.getDato().grupo_asociado)
                         amplitud_actual = tiempo_actual.getDato().lista_amplitudes.getInicio()
 
                         while amplitud_actual != None:
@@ -99,9 +125,32 @@ class metodos:
                     senal_actual = senal_actual.getSiguiente()
                     print("\n")
                     
+                print("MATRIZ REDUCIDA")
+
+                senal_actual = self.lista_senales_general.getInicio()
+                while senal_actual != None:
+                    print("\nNombre senal actual:", senal_actual.getDato().nombre)
+                    print("Tiempo maximo senal actual:", senal_actual.getDato().tiempo_maximo)
+                    print("Amplitud maxima senal actual:", senal_actual.getDato().amplitud_maxima,"\n")
+                    
+                    grupo_actual = senal_actual.getDato().matriz_reducida_grupos.getInicio()
+
+                    while grupo_actual != None:
+                        print("Grupo:", grupo_actual.getDato().nombre, "Tiempos:", grupo_actual.getDato().tiempos)
+                        amplitud_actual = grupo_actual.getDato().lista_amplitudes.getInicio()
+
+                        while amplitud_actual != None:
+                            print(f"   Amplitud {amplitud_actual.getDato().amplitud} - Dato: {amplitud_actual.getDato().dato}")
+                            amplitud_actual = amplitud_actual.getSiguiente()
+                        
+                        grupo_actual = grupo_actual.getSiguiente()
+                    
+                    senal_actual = senal_actual.getSiguiente()
+                    print("\n")
 
                 self.menu()
                 return
+            
 
                 
             elif opcion == 4:
@@ -118,14 +167,27 @@ class metodos:
 
             elif opcion == 5:
 
-                print("\nGenerar gráfica")
+                if self.lista_senales_general.listaVacia():
+                    print("\nNo hay senales para graficar...")
+                    print("Volviendo al menú inicial...\n")
+                    self.menu()
+                    return
+                
+                graficar = Grafica(self.lista_senales_general)
+                senal_graficar = input("\nIngrese el nombre de la señal que desea graficar: ")
+                graficar.graficar_frecuencias(senal_graficar)
+                
+                graficar.graficar_matriz_reducida(senal_graficar)
+                
                 self.menu()
                 return
 
 
             elif opcion == 6:
 
-                print("\nInicializar sistema")
+                self.ruta_archivo = ""
+                self.lista_senales_general = ListaSimple()
+                print("\n> Se ha inicializado el sistema con éxito...\n")
                 self.menu()
                 return
 
