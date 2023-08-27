@@ -53,6 +53,16 @@ class ListaSimple:
             print(actual.getDato())
             actual = actual.getSiguiente()
 
+    def contar(self):
+        actual = self.primero
+        contador = 0
+
+        while actual != None:
+            contador += 1
+            actual = actual.getSiguiente()
+        
+        return contador
+
     def getInicio(self):
         return self.primero
     

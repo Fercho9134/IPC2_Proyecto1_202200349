@@ -1,6 +1,7 @@
 class Nodo:
     
     def __init__(self, dato, siguiente = None):
+        self.codigo = id(self)
         self.dato = dato
         self.siguiente = siguiente
     
@@ -15,3 +16,6 @@ class Nodo:
     
     def setSiguiente(self, siguiente):
         self.siguiente = siguiente
+
+    def getIdNodo(self):
+        return self.codigo

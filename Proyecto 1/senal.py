@@ -6,3 +6,5 @@ class Senal:
         self.tiempo_maximo = tiempo_maximo
         self.amplitud_maxima = amplitud_maxima
         self.lista_tiempos = ListaSimple()
+        self.matriz_patrones_tiempos = ListaSimple()
+        self.matriz_reducida_grupos = ListaSimple()
