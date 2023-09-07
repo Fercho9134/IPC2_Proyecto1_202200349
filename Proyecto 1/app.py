@@ -3,8 +3,9 @@ from tkinter import filedialog
 from procesar_xml import ProcesarXML
 from lista_simple import ListaSimple
 from grafica import Grafica
+from escribir_xml import EscribirXML
 
-class metodos:
+class Main:
 
     def __init__(self):
         self.ruta_archivo = ""
@@ -16,7 +17,7 @@ class metodos:
         print("╠══════════════════════════════════╣")
         print("║ 1. Cargar archivo                ║")
         print("║ 2. Procesar archivo              ║")
-        print("║ 3. Imprimir tablas señales (tmp) ║")
+        print("║ 3. Escribir archivo de salida    ║")
         print("║ 4. Mostrar datos estudiante      ║")
         print("║ 5. Generar gráfica               ║")
         print("║ 6. Inicializar sistema           ║")
@@ -79,79 +80,11 @@ class metodos:
                     self.menu()
                     return
                 
-                senal_actual = self.lista_senales_general.getInicio()
-
-                while senal_actual != None:
-                    print("\nNombre senal actual:", senal_actual.getDato().nombre)
-                    print("Tiempo maximo senal actual:", senal_actual.getDato().tiempo_maximo)
-                    print("Amplitud maxima senal actual:", senal_actual.getDato().amplitud_maxima,"\n")
-                    
-                    tiempo_actual = senal_actual.getDato().lista_tiempos.getInicio()
-
-                    while tiempo_actual != None:
-                        print("Tiempo:", tiempo_actual.getDato().tiempo, "Grupo:", tiempo_actual.getDato().grupo_asociado)
-                        amplitud_actual = tiempo_actual.getDato().lista_amplitudes.getInicio()
-
-                        while amplitud_actual != None:
-                            print(f"   Amplitud {amplitud_actual.getDato().amplitud} - Dato: {amplitud_actual.getDato().dato}")
-                            amplitud_actual = amplitud_actual.getSiguiente()
-                        
-                        tiempo_actual = tiempo_actual.getSiguiente()
-                    
-                    senal_actual = senal_actual.getSiguiente()
-                    print("\n")
-
-
-                print("MATRIZ DE PATRONES")
-
-                senal_actual = self.lista_senales_general.getInicio()
-                while senal_actual != None:
-                    print("\nNombre senal actual:", senal_actual.getDato().nombre)
-                    print("Tiempo maximo senal actual:", senal_actual.getDato().tiempo_maximo)
-                    print("Amplitud maxima senal actual:", senal_actual.getDato().amplitud_maxima,"\n")
-                    
-                    tiempo_actual = senal_actual.getDato().matriz_patrones_tiempos.getInicio()
-
-                    while tiempo_actual != None:
-                        print("Tiempo:", tiempo_actual.getDato().tiempo, "Grupo:", tiempo_actual.getDato().grupo_asociado)
-                        amplitud_actual = tiempo_actual.getDato().lista_amplitudes.getInicio()
-
-                        while amplitud_actual != None:
-                            print(f"   Amplitud {amplitud_actual.getDato().amplitud} - Dato: {amplitud_actual.getDato().dato}")
-                            amplitud_actual = amplitud_actual.getSiguiente()
-                        
-                        tiempo_actual = tiempo_actual.getSiguiente()
-                    
-                    senal_actual = senal_actual.getSiguiente()
-                    print("\n")
-                    
-                print("MATRIZ REDUCIDA")
-
-                senal_actual = self.lista_senales_general.getInicio()
-                while senal_actual != None:
-                    print("\nNombre senal actual:", senal_actual.getDato().nombre)
-                    print("Tiempo maximo senal actual:", senal_actual.getDato().tiempo_maximo)
-                    print("Amplitud maxima senal actual:", senal_actual.getDato().amplitud_maxima,"\n")
-                    
-                    grupo_actual = senal_actual.getDato().matriz_reducida_grupos.getInicio()
-
-                    while grupo_actual != None:
-                        print("Grupo:", grupo_actual.getDato().nombre, "Tiempos:", grupo_actual.getDato().tiempos)
-                        amplitud_actual = grupo_actual.getDato().lista_amplitudes.getInicio()
-
-                        while amplitud_actual != None:
-                            print(f"   Amplitud {amplitud_actual.getDato().amplitud} - Dato: {amplitud_actual.getDato().dato}")
-                            amplitud_actual = amplitud_actual.getSiguiente()
-                        
-                        grupo_actual = grupo_actual.getSiguiente()
-                    
-                    senal_actual = senal_actual.getSiguiente()
-                    print("\n")
-
+                escribir = EscribirXML(self.lista_senales_general)
+                escribir.escribir()
                 self.menu()
                 return
             
-
                 
             elif opcion == 4:
 
@@ -213,5 +146,5 @@ class metodos:
 
         
 if __name__ == "__main__":
-    inicio = metodos()
+    inicio = Main()
     inicio.menu()
