@@ -56,8 +56,6 @@ class Grafica:
                 senal_actual = senal_actual.getSiguiente()
         
         if not encontro_senal:
-            print("\nNo se encontró la señal...")
-            print("Volviendo al menú inicial...\n")
             return
                    
         
@@ -121,8 +119,9 @@ class Grafica:
                 senal_actual = senal_actual.getSiguiente() 
             
         if not encontro_senal:
-            print("\nNo se encontró la señal...")
-            print("Volviendo al menú inicial...\n")
+            print("a")
+            print("> No se encontró la señal...")
+            print("> Volviendo al menú inicial...\n")
             return
                    
        
